@@ -22,11 +22,19 @@ import (
 type IngressRouteSpec struct {
 	// Virtualhost appears at most once. If it is present, the object is considered
 	// to be a "root".
-	VirtualHost *VirtualHost `json:"virtualhost,omitempty"`
+	VirtualHost *VirtualHost `json:"virtualhost,omitempty" yaml:"virtualhost,omitempty"`
 	// Routes are the ingress routes. If TCPProxy is present, Routes is ignored.
 	Routes []Route `json:"routes"`
 	// TCPProxy holds TCP proxy information.
-	TCPProxy *TCPProxy `json:"tcpproxy,omitempty"`
+	TCPProxy *TCPProxy `json:"tcpproxy,omitempty" yaml:"tcpproxy,omitempty"`
+
+	Includes []Include `yaml:"includes,omitempty"`
+}
+
+type Include struct {
+	Name       string              `yaml:"name"`
+	Namespace  string              `yaml:"namespace"`
+	Conditions []map[string]string `yaml:"conditions,omitempty"`
 }
 
 // VirtualHost appears at most once. If it is present, the object is considered
@@ -60,20 +68,20 @@ type Route struct {
 	// Match defines the prefix match
 	Match string `json:"match"`
 	// Services are the services to proxy traffic
-	Services []Service `json:"services,omitempty"`
+	Services []Service `json:"services,omitempty" yaml:"services,omitempty"`
 	// Delegate specifies that this route should be delegated to another IngressRoute
-	Delegate *Delegate `json:"delegate,omitempty"`
+	Delegate *Delegate `json:"delegate,omitempty" yaml:"delegate,omitempty"`
 	// Enables websocket support for the route
-	EnableWebsockets bool `json:"enableWebsockets,omitempty"`
+	EnableWebsockets bool `json:"enableWebsockets,omitempty" yaml:"enableWebsockets,omitempty"`
 	// Allow this path to respond to insecure requests over HTTP which are normally
 	// not permitted when a `virtualhost.tls` block is present.
-	PermitInsecure bool `json:"permitInsecure,omitempty"`
+	PermitInsecure bool `json:"permitInsecure,omitempty" yaml:"permitInsecure,omitempty"`
 	// Indicates that during forwarding, the matched prefix (or path) should be swapped with this value
-	PrefixRewrite string `json:"prefixRewrite,omitempty"`
+	PrefixRewrite string `json:"prefixRewrite,omitempty" yaml:"prefixRewrite,omitempty"`
 	// The timeout policy for this route
-	TimeoutPolicy *TimeoutPolicy `json:"timeoutPolicy,omitempty"`
+	TimeoutPolicy *TimeoutPolicy `json:"timeoutPolicy,omitempty" yaml:"timeoutPolicy,omitempty"`
 	// // The retry policy for this route
-	RetryPolicy *RetryPolicy `json:"retryPolicy,omitempty"`
+	RetryPolicy *RetryPolicy `json:"retryPolicy,omitempty" yaml:"retryPolicy,omitempty"`
 }
 
 // TCPProxy contains the set of services to proxy TCP connections.
@@ -92,13 +100,13 @@ type Service struct {
 	// Port (defined as Integer) to proxy traffic to since a service can have multiple defined
 	Port int `json:"port"`
 	// Weight defines percentage of traffic to balance traffic
-	Weight int `json:"weight,omitempty"`
+	Weight int `json:"weight,omitempty" yaml:"weight,omitempty"`
 	// HealthCheck defines optional healthchecks on the upstream service
-	HealthCheck *HealthCheck `json:"healthCheck,omitempty"`
+	HealthCheck *HealthCheck `json:"healthCheck,omitempty" yaml:"healthCheck,omitempty"`
 	// LB Algorithm to apply (see https://github.com/heptio/contour/blob/master/design/ingressroute-design.md#load-balancing)
-	Strategy string `json:"strategy,omitempty"`
+	Strategy string `json:"strategy,omitempty" yaml:"strategy,omitempty"`
 	// UpstreamValidation defines how to verify the backend service's certificate
-	UpstreamValidation *UpstreamValidation `json:"validation,omitempty"`
+	UpstreamValidation *UpstreamValidation `json:"validation,omitempty" yaml:"validation,omitempty"`
 }
 
 // Delegate allows for delegating VHosts to other IngressRoutes

@@ -15,6 +15,13 @@ func Basic() *ingressroutev1.IngressRoute {
 			VirtualHost: &ingressroutev1.VirtualHost{
 				Fqdn: "projectcontour.io",
 			},
+			Includes: []ingressroutev1.Include{{
+				Name:      "wwwsite",
+				Namespace: "teama",
+				Conditions: []map[string]string{{
+					"Prefix": "/",
+				}},
+			}},
 			Routes: []ingressroutev1.Route{{
 				Match: "/",
 				Services: []ingressroutev1.Service{{
