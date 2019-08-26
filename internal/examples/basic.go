@@ -7,9 +7,10 @@ import (
 
 func (e *Example) basic() Example {
 	return Example{
-		Name:        "Basic IngressRoute",
-		Description: "A basic IngressRoute which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`",
-		DirName:     "basic",
+		Name: "Basic IngressRoute",
+		Description: "A basic IngressRoute which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`\n" +
+			"# - GET projectcontour.io/ --> webapp.projectcontour-examples:80",
+		DirName: "basic",
 		IngressRoute: []*ingressroutev1.IngressRoute{{
 			ObjectMetaTemp: temp.ObjectMetaTemp{
 				Name:      "BasicIngressRoute",
@@ -26,10 +27,6 @@ func (e *Example) basic() Example {
 						Port: 80,
 					}},
 				}},
-			},
-			Status: ingressroutev1.Status{
-				CurrentStatus: "valid",
-				Description:   "valid IngressRoute",
 			},
 		}},
 	}

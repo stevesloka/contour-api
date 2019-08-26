@@ -7,9 +7,11 @@ import (
 
 func (e *Example) delegate() Example {
 	return Example{
-		Name:        "Delegation",
-		Description: "A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes",
-		DirName:     "delegation",
+		Name: "Delegation",
+		Description: "A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes. \n" +
+			"# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 \n" +
+			"# - GET projectcontour.io/blog --> servea.teama:8080",
+		DirName: "delegation",
 		IngressRoute: []*ingressroutev1.IngressRoute{{
 			ObjectMetaTemp: temp.ObjectMetaTemp{
 				Name:      "DelegateIngressRoute",
@@ -23,7 +25,7 @@ func (e *Example) delegate() Example {
 					Name:      "wwwsite",
 					Namespace: "teama",
 					Conditions: []map[string]string{{
-						"Prefix": "/",
+						"Prefix": "/blog",
 					}},
 				}},
 				Routes: []ingressroutev1.Route{{
@@ -33,38 +35,20 @@ func (e *Example) delegate() Example {
 						Port: 80,
 					}},
 				}},
-			},
-			Status: ingressroutev1.Status{
-				CurrentStatus: "valid",
-				Description:   "valid IngressRoute",
 			},
 		}, {
 			ObjectMetaTemp: temp.ObjectMetaTemp{
-				Name:      "DelegateIngressRoute22",
-				Namespace: "projectcontour-examples",
+				Name:      "wwwsite",
+				Namespace: "teama",
 			},
 			Spec: ingressroutev1.IngressRouteSpec{
-				VirtualHost: &ingressroutev1.VirtualHost{
-					Fqdn: "projectcontour.io",
-				},
-				Includes: []ingressroutev1.Include{{
-					Name:      "wwwsite",
-					Namespace: "teama",
-					Conditions: []map[string]string{{
-						"Prefix": "/",
-					}},
-				}},
 				Routes: []ingressroutev1.Route{{
 					Match: "/",
 					Services: []ingressroutev1.Service{{
-						Name: "webapp",
-						Port: 80,
+						Name: "servea",
+						Port: 8080,
 					}},
 				}},
-			},
-			Status: ingressroutev1.Status{
-				CurrentStatus: "valid",
-				Description:   "valid IngressRoute",
 			},
 		}},
 	}

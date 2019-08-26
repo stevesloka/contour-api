@@ -174,8 +174,8 @@ type IngressRoute struct {
 	//metav1.TypeMeta     `json:",inline"`                    // (SAS) Commented out to reduce the size of example output
 	temp.ObjectMetaTemp `json:"metadata" yaml:"metadata"` // (SAS) Temp ObjectMeta to reduce the size of example output
 
-	Spec   IngressRouteSpec `json:"spec"`
-	Status `json:"status"`
+	Spec IngressRouteSpec `json:"spec"`
+	//Status `json:"status"`  // (SAS) Commented out to reduce the size of example output
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
