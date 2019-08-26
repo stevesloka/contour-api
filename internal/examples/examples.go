@@ -18,6 +18,7 @@ func (e *Example) Get() []Example {
 		e.basic(),
 		e.delegate(),
 		e.headerDelegation(),
+		e.wildcardPath(),
 	}
 	return ex
 }
