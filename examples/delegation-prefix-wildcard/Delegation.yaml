@@ -1,0 +1,35 @@
+# Name: Delegation
+# Description: A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes. 
+# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 
+# - GET projectcontour.io/app/bar/foo --> servea.teama:8080
+
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: PathWildcardIngressRoute
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - match: /
+    services:
+    - name: webapp
+      port: 80
+  includes:
+  - name: wwwsite
+    namespace: teama
+    conditions:
+    - prefix: /app/*/foo
+---
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: wwwsite
+  namespace: teama
+spec:
+  routes:
+  - services:
+    - name: servea
+      port: 8080
+---
