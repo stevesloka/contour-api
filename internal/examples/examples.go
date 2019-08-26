@@ -17,6 +17,7 @@ func (e *Example) Get() []Example {
 	ex := []Example{
 		e.basic(),
 		e.delegate(),
+		e.headerDelegation(),
 	}
 	return ex
 }

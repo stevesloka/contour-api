@@ -1,0 +1,18 @@
+# Name: Basic IngressRoute
+# Description: A basic IngressRoute which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`
+# - GET projectcontour.io/ --> webapp.projectcontour-examples:80
+
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: BasicIngressRoute
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - match: /
+    services:
+    - name: webapp
+      port: 80
+---

@@ -11,7 +11,7 @@ func (e *Example) delegate() Example {
 		Description: "A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes. \n" +
 			"# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 \n" +
 			"# - GET projectcontour.io/blog --> servea.teama:8080",
-		DirName: "delegation",
+		DirName: "delegation-prefix",
 		IngressRoute: []*ingressroutev1.IngressRoute{{
 			ObjectMetaTemp: temp.ObjectMetaTemp{
 				Name:      "DelegateIngressRoute",
@@ -24,8 +24,8 @@ func (e *Example) delegate() Example {
 				Includes: []ingressroutev1.Include{{
 					Name:      "wwwsite",
 					Namespace: "teama",
-					Conditions: []map[string]string{{
-						"Prefix": "/blog",
+					Condition: []ingressroutev1.Condition{{
+						Prefix: "/blog",
 					}},
 				}},
 				Routes: []ingressroutev1.Route{{

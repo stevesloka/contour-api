@@ -1,0 +1,54 @@
+# Name: HeaderDelegation
+# Description: An IngressRoute which shows how an Include passes down a specific header to children IngressRoutes. 
+# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 
+# - GET -H 'Content-Language: en' projectcontour.io/ --> servea.teama:8080
+# - GET -H 'Content-Language: en' projectcontour.io/blog --> servea-blog.teama-blog:8080
+
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: DelegateHeaderIngressRoute
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - services:
+    - name: webapp
+      port: 80
+  includes:
+  - name: wwwsite
+    namespace: teama
+    conditions:
+    - headers:
+      - header: Content-Language
+        value: en
+---
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: wwwsite
+  namespace: teama
+spec:
+  routes:
+  - match: /
+    services:
+    - name: servea
+      port: 8080
+  includes:
+  - name: wwwsite-blog
+    namespace: teama-blog
+    conditions:
+    - prefix: /blog
+---
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: wwwsite-blog
+  namespace: teama-blog
+spec:
+  routes:
+  - services:
+    - name: servea-blog
+      port: 8080
+---

@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	outputPath = "_output"
+	outputPath = "docs"
 	apiVersion = "projectcontour.io/v1"
 	kind       = "IngressRoute"
 )

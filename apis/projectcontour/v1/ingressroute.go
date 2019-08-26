@@ -31,10 +31,23 @@ type IngressRouteSpec struct {
 	Includes []Include `yaml:"includes,omitempty"`
 }
 
+// Include describes a set of policies that can be applied to an IngressRoute in a namespace
 type Include struct {
-	Name       string              `yaml:"name"`
-	Namespace  string              `yaml:"namespace"`
-	Conditions []map[string]string `yaml:"conditions,omitempty"`
+	Name      string      `yaml:"name"`
+	Namespace string      `yaml:"namespace,omitempty"`
+	Condition []Condition `yaml:"conditions,omitempty"`
+}
+
+// Condition are policies that are applied on top of IngressRoutes
+type Condition struct {
+	Prefix  string            `yaml:"prefix,omitempty"`
+	Headers []HeaderCondition `yaml:"headers,omitempty"`
+}
+
+// HeaderCondition
+type HeaderCondition struct {
+	Header string `yaml:"header"`
+	Value  string `yaml:"value,omitempty"`
 }
 
 // VirtualHost appears at most once. If it is present, the object is considered
@@ -66,7 +79,7 @@ type TLS struct {
 // Route contains the set of routes for a virtual host
 type Route struct {
 	// Match defines the prefix match
-	Match string `json:"match"`
+	Match string `json:"match" yaml:"match,omitempty"`
 	// Services are the services to proxy traffic
 	Services []Service `json:"services,omitempty" yaml:"services,omitempty"`
 	// Delegate specifies that this route should be delegated to another IngressRoute
