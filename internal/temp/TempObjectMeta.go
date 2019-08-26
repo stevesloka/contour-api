@@ -1,5 +1,5 @@
 package temp
 
-type TempObjectMeta struct {
+type ObjectMetaTemp struct {
 	Name, Namespace string
 }

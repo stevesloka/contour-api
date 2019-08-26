@@ -5,34 +5,32 @@ import (
 	"github.com/projectcontour/contour-api/internal/temp"
 )
 
-func Basic() *ingressroutev1.IngressRoute {
-	return &ingressroutev1.IngressRoute{
-		TempObjectMeta: temp.TempObjectMeta{
-			Name:      "BasicIngressRoute",
-			Namespace: "projectcontour-examples",
-		},
-		Spec: ingressroutev1.IngressRouteSpec{
-			VirtualHost: &ingressroutev1.VirtualHost{
-				Fqdn: "projectcontour.io",
+func (e *Example) basic() Example {
+	return Example{
+		Name:        "Basic IngressRoute",
+		Description: "A basic IngressRoute which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`",
+		DirName:     "basic",
+		IngressRoute: []*ingressroutev1.IngressRoute{{
+			ObjectMetaTemp: temp.ObjectMetaTemp{
+				Name:      "BasicIngressRoute",
+				Namespace: "projectcontour-examples",
 			},
-			Includes: []ingressroutev1.Include{{
-				Name:      "wwwsite",
-				Namespace: "teama",
-				Conditions: []map[string]string{{
-					"Prefix": "/",
+			Spec: ingressroutev1.IngressRouteSpec{
+				VirtualHost: &ingressroutev1.VirtualHost{
+					Fqdn: "projectcontour.io",
+				},
+				Routes: []ingressroutev1.Route{{
+					Match: "/",
+					Services: []ingressroutev1.Service{{
+						Name: "webapp",
+						Port: 80,
+					}},
 				}},
-			}},
-			Routes: []ingressroutev1.Route{{
-				Match: "/",
-				Services: []ingressroutev1.Service{{
-					Name: "webapp",
-					Port: 80,
-				}},
-			}},
-		},
-		Status: ingressroutev1.Status{
-			CurrentStatus: "valid",
-			Description:   "valid IngressRoute",
-		},
+			},
+			Status: ingressroutev1.Status{
+				CurrentStatus: "valid",
+				Description:   "valid IngressRoute",
+			},
+		}},
 	}
 }

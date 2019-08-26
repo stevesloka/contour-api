@@ -46,7 +46,7 @@ type VirtualHost struct {
 	// If present describes tls properties. The CNI names that will be matched on
 	// are described in fqdn, the tls.secretName secret must contain a
 	// matching certificate
-	TLS *TLS `json:"tls,omitempty"`
+	TLS *TLS `json:"tls,omitempty" yaml:"tls,omitempty"`
 }
 
 // TLS describes tls properties. The CNI names that will be matched on
@@ -169,10 +169,10 @@ type Status struct {
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// IngressRoute is an Ingress CRD specificiation
+// IngressRoute is an Ingress CRD specification
 type IngressRoute struct {
-	//metav1.TypeMeta   `json:",inline"` // (SAS) Commented out to reduce the size of example output
-	temp.TempObjectMeta `json:"metadata" yaml:"objectMeta"` // (SAS) Temp ObjectMeta to reduce the size of example output
+	//metav1.TypeMeta     `json:",inline"`                    // (SAS) Commented out to reduce the size of example output
+	temp.ObjectMetaTemp `json:"metadata" yaml:"metadata"` // (SAS) Temp ObjectMeta to reduce the size of example output
 
 	Spec   IngressRouteSpec `json:"spec"`
 	Status `json:"status"`
