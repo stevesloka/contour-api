@@ -11,8 +11,7 @@ spec:
   virtualhost:
     fqdn: projectcontour.io
   routes:
-  - match: /
-    services:
+  - services:
     - name: webapp
       port: 80
 ---

@@ -30,7 +30,6 @@ func (e *Example) wildcardPath() Example {
 						}},
 					}},
 					Routes: []ingressroutev1.Route{{
-						Match: "/",
 						Services: []ingressroutev1.Service{{
 							Name: "webapp",
 							Port: 80,

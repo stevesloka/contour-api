@@ -21,7 +21,6 @@ func (e *Example) basic() Example {
 					Fqdn: "projectcontour.io",
 				},
 				Routes: []ingressroutev1.Route{{
-					Match: "/",
 					Services: []ingressroutev1.Service{{
 						Name: "webapp",
 						Port: 80,

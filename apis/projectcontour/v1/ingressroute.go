@@ -41,13 +41,8 @@ type Include struct {
 // Condition are policies that are applied on top of IngressRoutes
 type Condition struct {
 	Prefix  string            `yaml:"prefix,omitempty"`
-	Headers []HeaderCondition `yaml:"headers,omitempty"`
-}
-
-// HeaderCondition
-type HeaderCondition struct {
-	Header string `yaml:"header"`
-	Value  string `yaml:"value,omitempty"`
+	HeadersMatch map[string][]string `yaml:"headersMatch,omitempty"`
+	HeadersContain map[string][]string `yaml:"headersContain,omitempty"`
 }
 
 // VirtualHost appears at most once. If it is present, the object is considered
@@ -78,12 +73,10 @@ type TLS struct {
 
 // Route contains the set of routes for a virtual host
 type Route struct {
-	// Match defines the prefix match
-	Match string `json:"match" yaml:"match,omitempty"`
+	// Condition defines additional routing parameters on the route
+	Condition `yaml:"condition,omitempty"`
 	// Services are the services to proxy traffic
 	Services []Service `json:"services,omitempty" yaml:"services,omitempty"`
-	// Delegate specifies that this route should be delegated to another IngressRoute
-	Delegate *Delegate `json:"delegate,omitempty" yaml:"delegate,omitempty"`
 	// Enables websocket support for the route
 	EnableWebsockets bool `json:"enableWebsockets,omitempty" yaml:"enableWebsockets,omitempty"`
 	// Allow this path to respond to insecure requests over HTTP which are normally

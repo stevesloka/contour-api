@@ -27,10 +27,9 @@ func (e *Example) headerDelegation() Example {
 						Name:      "wwwsite",
 						Namespace: "teama",
 						Condition: []ingressroutev1.Condition{{
-							Headers: []ingressroutev1.HeaderCondition{{
-								Header: "Content-Language",
-								Value:  "en",
-							}},
+							HeadersMatch: map[string][]string{
+								"Content-Language": { "en" },
+							},
 						}},
 					}},
 					Routes: []ingressroutev1.Route{{
@@ -55,7 +54,6 @@ func (e *Example) headerDelegation() Example {
 						}},
 					}},
 					Routes: []ingressroutev1.Route{{
-						Match: "/",
 						Services: []ingressroutev1.Service{{
 							Name: "servea",
 							Port: 8080,

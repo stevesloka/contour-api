@@ -9,7 +9,7 @@ func (e *Example) delegate() Example {
 	return Example{
 		Name: "Delegation",
 		Description: "A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes. \n" +
-			"# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 \n" +
+			"# - GET projectcontour.io/ --> webapp.projectcontour-examples:80 \n" +
 			"# - GET projectcontour.io/blog --> servea.teama:8080",
 		DirName: "delegation-prefix",
 		IngressRoute: []*ingressroutev1.IngressRoute{{
@@ -29,7 +29,6 @@ func (e *Example) delegate() Example {
 					}},
 				}},
 				Routes: []ingressroutev1.Route{{
-					Match: "/",
 					Services: []ingressroutev1.Service{{
 						Name: "webapp",
 						Port: 80,
@@ -43,7 +42,6 @@ func (e *Example) delegate() Example {
 			},
 			Spec: ingressroutev1.IngressRouteSpec{
 				Routes: []ingressroutev1.Route{{
-					Match: "/",
 					Services: []ingressroutev1.Service{{
 						Name: "servea",
 						Port: 8080,

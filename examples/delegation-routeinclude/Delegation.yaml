@@ -1,0 +1,46 @@
+# Name: Delegation
+# Description: An IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes as well as routes define Conditions as well. 
+# - GET projectcontour.io/ --> webapp.projectcontour-examples:80 
+# - GET -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' projectcontour.io/blog/engineering --> serve-mobile.teama:8080
+# - GET -H projectcontour.io/blog/engineering --> serve-www.teama:8080
+
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: DelegateIngressRoute
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - services:
+    - name: webapp
+      port: 80
+  includes:
+  - name: wwwsite
+    namespace: teama
+    conditions:
+    - prefix: /blog
+---
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: wwwsite
+  namespace: teama
+spec:
+  routes:
+  - condition:
+      prefix: /engineering
+      headersContain:
+        user-agent:
+        - Android
+        - iPhone
+    services:
+    - name: serve-mobile
+      port: 8080
+  - condition:
+      prefix: /engineering
+    services:
+    - name: serve-www
+      port: 8080
+---
