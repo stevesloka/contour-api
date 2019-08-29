@@ -1,0 +1,28 @@
+# Name: Header
+# Description: An IngressRoute which shows how a Condition on a route routes requests with specific headers. 
+# - GET projectcontour.io/ --> webapp-others.projectcontour-examples:80 
+# - GET -H 'Content-Language: en' projectcontour.io/ --> webapp-en.projectcontour-examples:8080
+
+
+apiVersion: projectcontour.io/v1
+kind: IngressRoute
+metadata:
+  name: HeaderIngressRoute
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - condition:
+      headersMatch:
+        Content-Language:
+        - en
+    services:
+    - name: webapp-en
+      port: 80
+  - condition:
+      prefix: /
+    services:
+    - name: webapp-others
+      port: 80
+---

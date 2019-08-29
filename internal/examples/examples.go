@@ -20,6 +20,7 @@ func (e *Example) Get() []Example {
 		e.headerDelegation(),
 		e.wildcardPath(),
 		e.conditions_routeinclude(),
+		e.header(),
 	}
 	return ex
 }
