@@ -1,39 +1,39 @@
 package examples
 
 import (
-	ingressroutev1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
+	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
 	"github.com/projectcontour/contour-api/internal/temp"
 )
 
 func (e *Example) headerDelegation() Example {
 	return Example{
 		Name: "HeaderDelegation",
-		Description: "An IngressRoute which shows how an Include passes down a specific header to children IngressRoutes. \n" +
+		Description: "An HTTPLoadBalancer which shows how an Include passes down a specific header to children HTTPLoadBalancers. \n" +
 			"# - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 \n" +
 			"# - GET -H 'Content-Language: en' projectcontour.io/ --> servea.teama:8080\n" +
 			"# - GET -H 'Content-Language: en' projectcontour.io/blog --> servea-blog.teama-blog:8080",
 		DirName: "delegation-header",
-		IngressRoute: []*ingressroutev1.IngressRoute{
+		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{
 			{
 				ObjectMetaTemp: temp.ObjectMetaTemp{
-					Name:      "DelegateHeaderIngressRoute",
+					Name:      "DelegateHeaderHTTPLoadBalancer",
 					Namespace: "projectcontour-examples",
 				},
-				Spec: ingressroutev1.IngressRouteSpec{
-					VirtualHost: &ingressroutev1.VirtualHost{
+				Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
+					VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
 						Fqdn: "projectcontour.io",
 					},
-					Includes: []ingressroutev1.Include{{
+					Includes: []HTTPLoadBalancerv1.Include{{
 						Name:      "wwwsite",
 						Namespace: "teama",
-						Condition: []ingressroutev1.Condition{{
+						Condition: []HTTPLoadBalancerv1.Condition{{
 							HeadersMatch: map[string][]string{
 								"Content-Language": { "en" },
 							},
 						}},
 					}},
-					Routes: []ingressroutev1.Route{{
-						Services: []ingressroutev1.Service{{
+					Routes: []HTTPLoadBalancerv1.Route{{
+						Services: []HTTPLoadBalancerv1.Service{{
 							Name: "webapp",
 							Port: 80,
 						}},
@@ -45,16 +45,16 @@ func (e *Example) headerDelegation() Example {
 					Name:      "wwwsite",
 					Namespace: "teama",
 				},
-				Spec: ingressroutev1.IngressRouteSpec{
-					Includes: []ingressroutev1.Include{{
+				Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
+					Includes: []HTTPLoadBalancerv1.Include{{
 						Name:      "wwwsite-blog",
 						Namespace: "teama-blog",
-						Condition: []ingressroutev1.Condition{{
+						Condition: []HTTPLoadBalancerv1.Condition{{
 							Prefix: "/blog",
 						}},
 					}},
-					Routes: []ingressroutev1.Route{{
-						Services: []ingressroutev1.Service{{
+					Routes: []HTTPLoadBalancerv1.Route{{
+						Services: []HTTPLoadBalancerv1.Service{{
 							Name: "servea",
 							Port: 8080,
 						}},
@@ -66,9 +66,9 @@ func (e *Example) headerDelegation() Example {
 					Name:      "wwwsite-blog",
 					Namespace: "teama-blog",
 				},
-				Spec: ingressroutev1.IngressRouteSpec{
-					Routes: []ingressroutev1.Route{{
-						Services: []ingressroutev1.Service{{
+				Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
+					Routes: []HTTPLoadBalancerv1.Route{{
+						Services: []HTTPLoadBalancerv1.Service{{
 							Name: "servea-blog",
 							Port: 8080,
 						}},

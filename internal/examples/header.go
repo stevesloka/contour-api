@@ -1,44 +1,44 @@
 package examples
 
 import (
-	ingressroutev1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
+	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
 	"github.com/projectcontour/contour-api/internal/temp"
 )
 
 func (e *Example) header() Example {
 	return Example{
 		Name: "Header",
-		Description: "An IngressRoute which shows how a Condition on a route routes requests with specific headers. \n" +
+		Description: "An HTTPLoadBalancer which shows how a Condition on a route routes requests with specific headers. \n" +
 			"# - GET projectcontour.io/ --> webapp-others.projectcontour-examples:80 \n" +
 			"# - GET -H 'Content-Language: en' projectcontour.io/ --> webapp-en.projectcontour-examples:8080\n",
 		DirName: "header",
-		IngressRoute: []*ingressroutev1.IngressRoute{
+		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{
 			{
 				ObjectMetaTemp: temp.ObjectMetaTemp{
-					Name:      "HeaderIngressRoute",
+					Name:      "HeaderHTTPLoadBalancer",
 					Namespace: "projectcontour-examples",
 				},
-				Spec: ingressroutev1.IngressRouteSpec{
-					VirtualHost: &ingressroutev1.VirtualHost{
+				Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
+					VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
 						Fqdn: "projectcontour.io",
 					},
-					Routes: []ingressroutev1.Route{
+					Routes: []HTTPLoadBalancerv1.Route{
 						{
-						Condition: ingressroutev1.Condition{
+						Condition: HTTPLoadBalancerv1.Condition{
 							HeadersMatch: map[string][]string{
 								"Content-Language": { "en" },
 							},
 						},
-						Services: []ingressroutev1.Service{{
+						Services: []HTTPLoadBalancerv1.Service{{
 							Name: "webapp-en",
 							Port: 80,
 						}},
 					},
 					{
-						Condition: ingressroutev1.Condition{
+						Condition: HTTPLoadBalancerv1.Condition{
 							Prefix: "/",
 						},
-						Services: []ingressroutev1.Service{{
+						Services: []HTTPLoadBalancerv1.Service{{
 							Name: "webapp-others",
 							Port: 80,
 						}},

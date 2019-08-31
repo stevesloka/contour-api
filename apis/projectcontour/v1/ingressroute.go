@@ -18,8 +18,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// IngressRouteSpec defines the spec of the CRD
-type IngressRouteSpec struct {
+// HTTPLoadBalancerSpec defines the spec of the CRD
+type HTTPLoadBalancerSpec struct {
 	// Virtualhost appears at most once. If it is present, the object is considered
 	// to be a "root".
 	VirtualHost *VirtualHost `json:"virtualhost,omitempty" yaml:"virtualhost,omitempty"`
@@ -31,14 +31,14 @@ type IngressRouteSpec struct {
 	Includes []Include `yaml:"includes,omitempty"`
 }
 
-// Include describes a set of policies that can be applied to an IngressRoute in a namespace
+// Include describes a set of policies that can be applied to an HTTPLoadBalancer in a namespace
 type Include struct {
 	Name      string      `yaml:"name"`
 	Namespace string      `yaml:"namespace,omitempty"`
 	Condition []Condition `yaml:"conditions,omitempty"`
 }
 
-// Condition are policies that are applied on top of IngressRoutes
+// Condition are policies that are applied on top of HTTPLoadBalancers
 type Condition struct {
 	Prefix  string            `yaml:"prefix,omitempty"`
 	HeadersMatch map[string][]string `yaml:"headersMatch,omitempty"`
@@ -94,7 +94,7 @@ type Route struct {
 type TCPProxy struct {
 	// Services are the services to proxy traffic
 	Services []Service `json:"services,omitempty"`
-	// Delegate specifies that this tcpproxy should be delegated to another IngressRoute
+	// Delegate specifies that this tcpproxy should be delegated to another HTTPLoadBalancer
 	Delegate *Delegate `json:"delegate,omitempty"`
 }
 
@@ -109,17 +109,17 @@ type Service struct {
 	Weight int `json:"weight,omitempty" yaml:"weight,omitempty"`
 	// HealthCheck defines optional healthchecks on the upstream service
 	HealthCheck *HealthCheck `json:"healthCheck,omitempty" yaml:"healthCheck,omitempty"`
-	// LB Algorithm to apply (see https://github.com/heptio/contour/blob/master/design/ingressroute-design.md#load-balancing)
+	// LB Algorithm to apply (see https://github.com/heptio/contour/blob/master/design/HTTPLoadBalancer-design.md#load-balancing)
 	Strategy string `json:"strategy,omitempty" yaml:"strategy,omitempty"`
 	// UpstreamValidation defines how to verify the backend service's certificate
 	UpstreamValidation *UpstreamValidation `json:"validation,omitempty" yaml:"validation,omitempty"`
 }
 
-// Delegate allows for delegating VHosts to other IngressRoutes
+// Delegate allows for delegating VHosts to other HTTPLoadBalancers
 type Delegate struct {
-	// Name of the IngressRoute
+	// Name of the HTTPLoadBalancer
 	Name string `json:"name"`
-	// Namespace of the IngressRoute
+	// Namespace of the HTTPLoadBalancer
 	Namespace string `json:"namespace,omitempty"`
 }
 
@@ -166,7 +166,7 @@ type UpstreamValidation struct {
 	SubjectName string `json:"subjectName"`
 }
 
-// Status reports the current state of the IngressRoute
+// Status reports the current state of the HTTPLoadBalancer
 type Status struct {
 	CurrentStatus string `json:"currentStatus"`
 	Description   string `json:"description"`
@@ -175,20 +175,20 @@ type Status struct {
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// IngressRoute is an Ingress CRD specification
-type IngressRoute struct {
+// HTTPLoadBalancer is an Ingress CRD specification
+type HTTPLoadBalancer struct {
 	//metav1.TypeMeta     `json:",inline"`                    // (SAS) Commented out to reduce the size of example output
 	temp.ObjectMetaTemp `json:"metadata" yaml:"metadata"` // (SAS) Temp ObjectMeta to reduce the size of example output
 
-	Spec IngressRouteSpec `json:"spec"`
+	Spec HTTPLoadBalancerSpec `json:"spec"`
 	//Status `json:"status"`  // (SAS) Commented out to reduce the size of example output
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// IngressRouteList is a list of IngressRoutes
-type IngressRouteList struct {
+// HTTPLoadBalancerList is a list of HTTPLoadBalancers
+type HTTPLoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
-	Items           []IngressRoute `json:"items"`
+	Items           []HTTPLoadBalancer `json:"items"`
 }

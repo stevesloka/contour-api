@@ -1,0 +1,17 @@
+# Name: Basic HTTPLoadBalancer
+# Description: A basic HTTPLoadBalancer which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`
+# - GET projectcontour.io/ --> webapp.projectcontour-examples:80
+
+apiVersion: projectcontour.io/v1alpha1
+kind: HTTPLoadBalancer
+metadata:
+  name: basic-httploadbalancer
+  namespace: projectcontour-examples
+spec:
+  virtualhost:
+    fqdn: projectcontour.io
+  routes:
+  - services:
+    - name: webapp
+      port: 80
+---

@@ -1,18 +1,18 @@
 package examples
 
 import (
-	ingressroutev1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
+	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
 )
 
-// Example represents a single example containing a set of IngressRoute objects
+// Example represents a single example containing a set of HTTPLoadBalancer objects
 type Example struct {
 	Name         string
 	Description  string
 	DirName      string
-	IngressRoute []*ingressroutev1.IngressRoute
+	HTTPLoadBalancer []*HTTPLoadBalancerv1.HTTPLoadBalancer
 }
 
-// Get returns the set of example IngressRoute objects
+// Get returns the set of example HTTPLoadBalancer objects
 func (e *Example) Get() []Example {
 	ex := []Example{
 		e.basic(),

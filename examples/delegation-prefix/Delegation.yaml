@@ -1,12 +1,12 @@
 # Name: Delegation
-# Description: A simple IngressRoute which shows how an Include passes down a path prefix to children IngressRoutes. 
+# Description: A simple HTTPLoadBalancer which shows how an Include passes down a path prefix to children HTTPLoadBalancers. 
 # - GET projectcontour.io/ --> webapp.projectcontour-examples:80 
 # - GET projectcontour.io/blog --> servea.teama:8080
 
-apiVersion: projectcontour.io/v1
-kind: IngressRoute
+apiVersion: projectcontour.io/v1alpha1
+kind: HTTPLoadBalancer
 metadata:
-  name: DelegateIngressRoute
+  name: DelegateHTTPLoadBalancer
   namespace: projectcontour-examples
 spec:
   virtualhost:
@@ -21,8 +21,8 @@ spec:
     conditions:
     - prefix: /blog
 ---
-apiVersion: projectcontour.io/v1
-kind: IngressRoute
+apiVersion: projectcontour.io/v1alpha1
+kind: HTTPLoadBalancer
 metadata:
   name: wwwsite
   namespace: teama
