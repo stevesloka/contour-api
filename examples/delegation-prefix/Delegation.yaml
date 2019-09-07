@@ -1,25 +1,25 @@
 # Name: Delegation
 # Description: A simple HTTPLoadBalancer which shows how an Include passes down a path prefix to children HTTPLoadBalancers. 
-# - GET projectcontour.io/ --> webapp.projectcontour-examples:80 
+# - GET projectcontour.io/ --> webapp.default:80 
 # - GET projectcontour.io/blog --> servea.teama:8080
 
 apiVersion: projectcontour.io/v1alpha1
 kind: HTTPLoadBalancer
 metadata:
-  name: DelegateHTTPLoadBalancer
-  namespace: projectcontour-examples
+  name: delegate-http-loadbalancer
+  namespace: default
 spec:
   virtualhost:
-    fqdn: projectcontour.io
+    fqdn: kuard.local
   routes:
   - services:
-    - name: webapp
+    - name: kuard
       port: 80
   includes:
   - name: wwwsite
     namespace: teama
     conditions:
-    - prefix: /blog
+      prefix: /blog
 ---
 apiVersion: projectcontour.io/v1alpha1
 kind: HTTPLoadBalancer
@@ -29,6 +29,6 @@ metadata:
 spec:
   routes:
   - services:
-    - name: servea
-      port: 8080
+    - name: nginx
+      port: 80
 ---

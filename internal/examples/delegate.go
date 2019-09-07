@@ -9,17 +9,17 @@ func (e *Example) delegate() Example {
 	return Example{
 		Name: "Delegation",
 		Description: "A simple HTTPLoadBalancer which shows how an Include passes down a path prefix to children HTTPLoadBalancers. \n" +
-			"# - GET projectcontour.io/ --> webapp.projectcontour-examples:80 \n" +
+			"# - GET projectcontour.io/ --> webapp.default:80 \n" +
 			"# - GET projectcontour.io/blog --> servea.teama:8080",
 		DirName: "delegation-prefix",
 		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{{
 			ObjectMetaTemp: temp.ObjectMetaTemp{
-				Name:      "DelegateHTTPLoadBalancer",
-				Namespace: "projectcontour-examples",
+				Name:      "delegate-http-loadbalancer",
+				Namespace: "default",
 			},
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
-					Fqdn: "projectcontour.io",
+					Fqdn: "kuard.local",
 				},
 				Includes: []HTTPLoadBalancerv1.Include{{
 					Name:      "wwwsite",
@@ -30,7 +30,7 @@ func (e *Example) delegate() Example {
 				}},
 				Routes: []HTTPLoadBalancerv1.Route{{
 					Services: []HTTPLoadBalancerv1.Service{{
-						Name: "webapp",
+						Name: "kuard",
 						Port: 80,
 					}},
 				}},
@@ -43,8 +43,8 @@ func (e *Example) delegate() Example {
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				Routes: []HTTPLoadBalancerv1.Route{{
 					Services: []HTTPLoadBalancerv1.Service{{
-						Name: "servea",
-						Port: 8080,
+						Name: "nginx",
+						Port: 80,
 					}},
 				}},
 			},

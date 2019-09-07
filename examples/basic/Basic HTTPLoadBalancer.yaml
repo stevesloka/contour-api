@@ -6,12 +6,12 @@ apiVersion: projectcontour.io/v1alpha1
 kind: HTTPLoadBalancer
 metadata:
   name: basic-httploadbalancer
-  namespace: projectcontour-examples
+  namespace: default
 spec:
   virtualhost:
-    fqdn: projectcontour.io
+    fqdn: kuard.local
   routes:
   - services:
-    - name: webapp
+    - name: kuard
       port: 80
 ---

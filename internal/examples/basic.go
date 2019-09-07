@@ -14,15 +14,15 @@ func (e *Example) basic() Example {
 		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{{
 			ObjectMetaTemp: temp.ObjectMetaTemp{
 				Name:      "basic-httploadbalancer",
-				Namespace: "projectcontour-examples",
+				Namespace: "default",
 			},
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
-					Fqdn: "projectcontour.io",
+					Fqdn: "kuard.local",
 				},
 				Routes: []HTTPLoadBalancerv1.Route{{
 					Services: []HTTPLoadBalancerv1.Service{{
-						Name: "webapp",
+						Name: "kuard",
 						Port: 80,
 					}},
 				}},
