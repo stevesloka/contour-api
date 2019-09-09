@@ -1,8 +1,8 @@
 package examples
 
 import (
-	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
-	"github.com/projectcontour/contour-api/internal/temp"
+	HTTPLoadBalancerv1 "github.com/heptio/contour/apis/projectcontour/v1alpha1"
+	//metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func (e *Example) basic() Example {
@@ -12,10 +12,10 @@ func (e *Example) basic() Example {
 			"# - GET projectcontour.io/ --> webapp.projectcontour-examples:80",
 		DirName: "basic",
 		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{{
-			ObjectMetaTemp: temp.ObjectMetaTemp{
-				Name:      "basic-httploadbalancer",
-				Namespace: "default",
-			},
+			//ObjectMeta: metav1.ObjectMeta{
+			//	Name:      "basic-httploadbalancer",
+			//	Namespace: "default",
+			//},
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
 					Fqdn: "kuard.local",

@@ -1,8 +1,7 @@
 package examples
 
 import (
-	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
-	"github.com/projectcontour/contour-api/internal/temp"
+	HTTPLoadBalancerv1 "github.com/heptio/contour/apis/projectcontour/v1alpha1"
 )
 
 func (e *Example) conditions_routeinclude() Example {
@@ -14,10 +13,10 @@ func (e *Example) conditions_routeinclude() Example {
 			"# - GET -H projectcontour.io/blog/engineering --> serve-www.teama:8080",
 		DirName: "delegation-routeinclude",
 		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{{
-			ObjectMetaTemp: temp.ObjectMetaTemp{
-				Name:      "DelegateHTTPLoadBalancer",
-				Namespace: "projectcontour-examples",
-			},
+			//ObjectMetaTemp: temp.ObjectMetaTemp{
+			//	Name:      "DelegateHTTPLoadBalancer",
+			//	Namespace: "projectcontour-examples",
+			//},
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
 					Fqdn: "projectcontour.io",
@@ -25,9 +24,9 @@ func (e *Example) conditions_routeinclude() Example {
 				Includes: []HTTPLoadBalancerv1.Include{{
 					Name:      "wwwsite",
 					Namespace: "teama",
-					Condition: []HTTPLoadBalancerv1.Condition{{
+					Condition: HTTPLoadBalancerv1.Condition{
 						Prefix: "/blog",
-					}},
+					},
 				}},
 				Routes: []HTTPLoadBalancerv1.Route{{
 					Services: []HTTPLoadBalancerv1.Service{{
@@ -37,14 +36,14 @@ func (e *Example) conditions_routeinclude() Example {
 				}},
 			},
 		}, {
-			ObjectMetaTemp: temp.ObjectMetaTemp{
-				Name:      "wwwsite",
-				Namespace: "teama",
-			},
+			//ObjectMetaTemp: temp.ObjectMetaTemp{
+			//	Name:      "wwwsite",
+			//	Namespace: "teama",
+			//},
 			Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 				Routes: []HTTPLoadBalancerv1.Route{
 					{
-						Condition: HTTPLoadBalancerv1.Condition{
+						Condition: &HTTPLoadBalancerv1.Condition{
 							Prefix: "/engineering",
 							HeadersContain: map[string][]string{
 								"user-agent": {"Android", "iPhone"},
@@ -56,7 +55,7 @@ func (e *Example) conditions_routeinclude() Example {
 						}},
 					},
 					{
-						Condition: HTTPLoadBalancerv1.Condition{
+						Condition: &HTTPLoadBalancerv1.Condition{
 							Prefix: "/engineering",
 						},
 						Services: []HTTPLoadBalancerv1.Service{{

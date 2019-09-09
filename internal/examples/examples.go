@@ -1,7 +1,7 @@
 package examples
 
 import (
-	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
+	HTTPLoadBalancerv1 "github.com/heptio/contour/apis/projectcontour/v1alpha1"
 )
 
 // Example represents a single example containing a set of HTTPLoadBalancer objects

@@ -1,8 +1,7 @@
 package examples
 
 import (
-	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
-	"github.com/projectcontour/contour-api/internal/temp"
+	HTTPLoadBalancerv1 "github.com/heptio/contour/apis/projectcontour/v1alpha1"
 )
 
 func (e *Example) header() Example {
@@ -14,17 +13,17 @@ func (e *Example) header() Example {
 		DirName: "header",
 		HTTPLoadBalancer: []*HTTPLoadBalancerv1.HTTPLoadBalancer{
 			{
-				ObjectMetaTemp: temp.ObjectMetaTemp{
-					Name:      "HeaderHTTPLoadBalancer",
-					Namespace: "projectcontour-examples",
-				},
+				//ObjectMetaTemp: temp.ObjectMetaTemp{
+				//	Name:      "HeaderHTTPLoadBalancer",
+				//	Namespace: "projectcontour-examples",
+				//},
 				Spec: HTTPLoadBalancerv1.HTTPLoadBalancerSpec{
 					VirtualHost: &HTTPLoadBalancerv1.VirtualHost{
 						Fqdn: "projectcontour.io",
 					},
 					Routes: []HTTPLoadBalancerv1.Route{
 						{
-						Condition: HTTPLoadBalancerv1.Condition{
+						Condition: &HTTPLoadBalancerv1.Condition{
 							HeadersMatch: map[string][]string{
 								"Content-Language": { "en" },
 							},
@@ -35,7 +34,7 @@ func (e *Example) header() Example {
 						}},
 					},
 					{
-						Condition: HTTPLoadBalancerv1.Condition{
+						Condition: &HTTPLoadBalancerv1.Condition{
 							Prefix: "/",
 						},
 						Services: []HTTPLoadBalancerv1.Service{{

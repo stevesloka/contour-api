@@ -5,30 +5,99 @@
 
 apiVersion: projectcontour.io/v1alpha1
 kind: HTTPLoadBalancer
-metadata:
-  name: delegate-http-loadbalancer
-  namespace: default
+typemeta:
+  kind: ""
+  apiversion: ""
+objectmeta:
+  name: ""
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  initializers: null
+  finalizers: []
+  clustername: ""
+  managedfields: []
 spec:
   virtualhost:
     fqdn: kuard.local
+    tls: null
   routes:
-  - services:
+  - condition: null
+    services:
     - name: kuard
       port: 80
+      weight: 0
+      healthcheck: null
+      strategy: ""
+      upstreamvalidation: null
+    enablewebsockets: false
+    permitinsecure: false
+    prefixrewrite: ""
+    timeoutpolicy: null
+    retrypolicy: null
+  tcpproxy: null
   includes:
   - name: wwwsite
     namespace: teama
-    conditions:
+    condition:
       prefix: /blog
+      headersmatch: {}
+      headerscontain: {}
+status:
+  currentstatus: ""
+  description: ""
 ---
 apiVersion: projectcontour.io/v1alpha1
 kind: HTTPLoadBalancer
-metadata:
-  name: wwwsite
-  namespace: teama
+typemeta:
+  kind: ""
+  apiversion: ""
+objectmeta:
+  name: ""
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  initializers: null
+  finalizers: []
+  clustername: ""
+  managedfields: []
 spec:
+  virtualhost: null
   routes:
-  - services:
+  - condition: null
+    services:
     - name: nginx
       port: 80
+      weight: 0
+      healthcheck: null
+      strategy: ""
+      upstreamvalidation: null
+    enablewebsockets: false
+    permitinsecure: false
+    prefixrewrite: ""
+    timeoutpolicy: null
+    retrypolicy: null
+  tcpproxy: null
+  includes: []
+status:
+  currentstatus: ""
+  description: ""
 ---

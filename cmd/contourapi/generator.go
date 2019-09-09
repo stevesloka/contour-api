@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/projectcontour/contour-api/internal/examples"
+	"github.com/stevesloka/contour-api/internal/examples"
 
 	"gopkg.in/yaml.v2"
 )
