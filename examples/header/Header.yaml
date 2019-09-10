@@ -1,11 +1,11 @@
 # Name: Header
-# Description: An HTTPLoadBalancer which shows how a Condition on a route routes requests with specific headers. 
+# Description: An HTTPProxy which shows how a Condition on a route routes requests with specific headers. 
 # - GET projectcontour.io/ --> webapp-others.projectcontour-examples:80 
 # - GET -H 'Content-Language: en' projectcontour.io/ --> webapp-en.projectcontour-examples:8080
 
 
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
+kind: HTTPProxy
 typemeta:
   kind: ""
   apiversion: ""

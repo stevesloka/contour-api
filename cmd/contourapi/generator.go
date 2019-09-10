@@ -12,7 +12,7 @@ import (
 const (
 	outputPath = "examples"
 	apiVersion = "projectcontour.io/v1alpha1"
-	kind       = "HTTPLoadBalancer"
+	kind       = "HTTPProxy"
 )
 
 func main() {
@@ -34,8 +34,8 @@ func main() {
 		_, err = file.WriteString(fmt.Sprintf("# Name: %s\n# Description: %s\n\n", v.Name, v.Description))
 		check(err)
 
-		for _, HTTPLoadBalancer := range v.HTTPLoadBalancer {
-			d, err := yaml.Marshal(HTTPLoadBalancer)
+		for _, HTTPProxy := range v.HTTPProxy {
+			d, err := yaml.Marshal(HTTPProxy)
 			check(err)
 
 			_, err = file.WriteString(fmt.Sprintf("apiVersion: %s\nkind: %s\n%s---\n", apiVersion, kind, string(d)))

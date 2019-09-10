@@ -1,10 +1,10 @@
 # Name: Delegation
-# Description: A simple HTTPLoadBalancer which shows how an Include passes down a path prefix to children HTTPLoadBalancers. 
+# Description: A simple HTTPProxy which shows how an Include passes down a path prefix to children HTTPProxys. 
 # - GET projectcontour.io/ --> webapp.default:80 
 # - GET projectcontour.io/blog --> servea.teama:8080
 
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
+kind: HTTPProxy
 typemeta:
   kind: ""
   apiversion: ""
@@ -57,7 +57,7 @@ status:
   description: ""
 ---
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
+kind: HTTPProxy
 typemeta:
   kind: ""
   apiversion: ""
