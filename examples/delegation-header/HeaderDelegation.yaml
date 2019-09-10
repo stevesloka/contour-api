@@ -1,53 +1,157 @@
 # Name: HeaderDelegation
-# Description: An HTTPLoadBalancer which shows how an Include passes down a specific header to children HTTPLoadBalancers. 
+# Description: An HTTPProxy which shows how an Include passes down a specific header to children HTTPProxys. 
 # - GET projectcontour.io/ --> webapp.projectcontour-exmaples:80 
 # - GET -H 'Content-Language: en' projectcontour.io/ --> servea.teama:8080
 # - GET -H 'Content-Language: en' projectcontour.io/blog --> servea-blog.teama-blog:8080
 
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
-metadata:
-  name: DelegateHeaderHTTPLoadBalancer
-  namespace: projectcontour-examples
+kind: HTTPProxy
+typemeta:
+  kind: ""
+  apiversion: ""
+objectmeta:
+  name: ""
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  initializers: null
+  finalizers: []
+  clustername: ""
+  managedfields: []
 spec:
   virtualhost:
     fqdn: projectcontour.io
+    tls: null
   routes:
-  - services:
+  - condition: null
+    services:
     - name: webapp
       port: 80
+      weight: 0
+      healthcheck: null
+      strategy: ""
+      upstreamvalidation: null
+    enablewebsockets: false
+    permitinsecure: false
+    prefixrewrite: ""
+    timeoutpolicy: null
+    retrypolicy: null
+  tcpproxy: null
   includes:
   - name: wwwsite
     namespace: teama
-    conditions:
-    - headersMatch:
+    condition:
+      prefix: ""
+      headersmatch:
         Content-Language:
         - en
+      headerscontain: {}
+status:
+  currentstatus: ""
+  description: ""
 ---
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
-metadata:
-  name: wwwsite
-  namespace: teama
+kind: HTTPProxy
+typemeta:
+  kind: ""
+  apiversion: ""
+objectmeta:
+  name: ""
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  initializers: null
+  finalizers: []
+  clustername: ""
+  managedfields: []
 spec:
+  virtualhost: null
   routes:
-  - services:
+  - condition: null
+    services:
     - name: servea
       port: 8080
+      weight: 0
+      healthcheck: null
+      strategy: ""
+      upstreamvalidation: null
+    enablewebsockets: false
+    permitinsecure: false
+    prefixrewrite: ""
+    timeoutpolicy: null
+    retrypolicy: null
+  tcpproxy: null
   includes:
   - name: wwwsite-blog
     namespace: teama-blog
-    conditions:
-    - prefix: /blog
+    condition:
+      prefix: /blog
+      headersmatch: {}
+      headerscontain: {}
+status:
+  currentstatus: ""
+  description: ""
 ---
 apiVersion: projectcontour.io/v1alpha1
-kind: HTTPLoadBalancer
-metadata:
-  name: wwwsite-blog
-  namespace: teama-blog
+kind: HTTPProxy
+typemeta:
+  kind: ""
+  apiversion: ""
+objectmeta:
+  name: ""
+  generatename: ""
+  namespace: ""
+  selflink: ""
+  uid: ""
+  resourceversion: ""
+  generation: 0
+  creationtimestamp: "0001-01-01T00:00:00Z"
+  deletiontimestamp: null
+  deletiongraceperiodseconds: null
+  labels: {}
+  annotations: {}
+  ownerreferences: []
+  initializers: null
+  finalizers: []
+  clustername: ""
+  managedfields: []
 spec:
+  virtualhost: null
   routes:
-  - services:
+  - condition: null
+    services:
     - name: servea-blog
       port: 8080
+      weight: 0
+      healthcheck: null
+      strategy: ""
+      upstreamvalidation: null
+    enablewebsockets: false
+    permitinsecure: false
+    prefixrewrite: ""
+    timeoutpolicy: null
+    retrypolicy: null
+  tcpproxy: null
+  includes: []
+status:
+  currentstatus: ""
+  description: ""
 ---

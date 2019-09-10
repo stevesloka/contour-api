@@ -1,0 +1,18 @@
+# Name: Basic HTTPProxy
+# Description: A basic HTTPProxy which routes a request to `projectcontour.io/` to the backend `webapp` in the namespace `projectcontour-examples`
+# - GET projectcontour.io/ --> webapp.projectcontour-examples:80
+
+apiVersion: projectcontour.io/v1alpha1
+kind: HTTPProxy
+metadata:
+  name: basic
+spec:
+  virtualhost:
+    fqdn: kuard.local
+  routes:
+  - condition:
+      prefixPath: /
+    services:
+    - name: kuard
+      port: 80
+---

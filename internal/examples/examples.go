@@ -1,18 +1,18 @@
 package examples
 
 import (
-	HTTPLoadBalancerv1 "github.com/projectcontour/contour-api/apis/projectcontour/v1"
+	HTTPProxy "github.com/heptio/contour/apis/projectcontour/v1alpha1"
 )
 
-// Example represents a single example containing a set of HTTPLoadBalancer objects
+// Example represents a single example containing a set of HTTPProxy objects
 type Example struct {
 	Name         string
 	Description  string
 	DirName      string
-	HTTPLoadBalancer []*HTTPLoadBalancerv1.HTTPLoadBalancer
+	HTTPProxy []*HTTPProxy.HTTPProxy
 }
 
-// Get returns the set of example HTTPLoadBalancer objects
+// Get returns the set of example HTTPProxy objects
 func (e *Example) Get() []Example {
 	ex := []Example{
 		e.basic(),
